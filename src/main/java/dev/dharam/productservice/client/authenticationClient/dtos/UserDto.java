@@ -1,17 +1,18 @@
 package dev.dharam.productservice.client.authenticationClient.dtos;
 
+
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Getter
 @Setter
-public class UserResponseDto {
-    private UUID id;
+public class UserDto {
     private String email;
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
+
 
 
 }

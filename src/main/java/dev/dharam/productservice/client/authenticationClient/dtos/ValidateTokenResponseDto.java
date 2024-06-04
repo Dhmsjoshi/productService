@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ValidateTokenResponseDto {
-    private UserResponseDto userResponseDto;
+    private UserDto userDto;
     private SessionStatus sessionStatus;
 
 }

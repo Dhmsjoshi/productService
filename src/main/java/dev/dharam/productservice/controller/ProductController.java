@@ -46,10 +46,12 @@ public class ProductController {
         }
 
 
+
         //check if user has permissions
         boolean isUserAdmin = false;
-        for(Role role: response.getUserResponseDto().getRoles()){
-            if(role.getName().equals("ADMIN")){
+
+        for(Role role: response.getUserDto().getRoles()){
+            if(role.getName().equals("admin")){
                 isUserAdmin = true;
             }
         }
