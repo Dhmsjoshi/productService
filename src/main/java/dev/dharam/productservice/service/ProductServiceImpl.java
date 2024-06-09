@@ -12,6 +12,8 @@ import dev.dharam.productservice.repositories.CategoryRepository;
 import dev.dharam.productservice.repositories.ProductRatingRepository;
 import dev.dharam.productservice.repositories.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -83,5 +85,13 @@ public class ProductServiceImpl implements ProductService{
 
         productRepository.deleteById(productId);
         return "Deleted Successfully..";
+    }
+
+    @Override
+    public Page<Product> getProducts(int numberOfProducts, int offset){
+        Page<Product> products = productRepository.findAll(
+                PageRequest.of((offset/numberOfProducts), numberOfProducts)
+        );
+        return products;
     }
 }

@@ -1,6 +1,8 @@
 package dev.dharam.productservice.entities;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +15,7 @@ public class Product extends BaseModel {
     private double price;
     private String description;
     @ManyToOne
+    @JoinColumn
     private Category category;
     private String ImageURL;
     @ManyToOne

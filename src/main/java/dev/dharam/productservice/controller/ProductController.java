@@ -5,30 +5,42 @@ import dev.dharam.productservice.client.authenticationClient.AuthenticationClien
 import dev.dharam.productservice.client.authenticationClient.dtos.Role;
 import dev.dharam.productservice.client.authenticationClient.dtos.SessionStatus;
 import dev.dharam.productservice.client.authenticationClient.dtos.ValidateTokenResponseDto;
+import dev.dharam.productservice.dto.GetProductsRequestDto;
 import dev.dharam.productservice.dto.ProductRequestDto;
 import dev.dharam.productservice.dto.ProductResponseDto;
+import dev.dharam.productservice.entities.Product;
 import dev.dharam.productservice.exceptions.InvalidInputException;
 import dev.dharam.productservice.service.ProductService;
 import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
 @RequestMapping("/products")
 public class ProductController {
     @Autowired
-//    @Qualifier("productService")
-    @Qualifier("fakeStoreProductService")
+    @Qualifier("productService")
+ //   @Qualifier("fakeStoreProductService")
     private ProductService productService;
 
     @Autowired
     private AuthenticationClient authenticationClient;
+
+
+    @GetMapping("/paginated")
+    public ResponseEntity<Page<Product>> getProducts(@RequestBody GetProductsRequestDto request){
+
+        return ResponseEntity.of(Optional.ofNullable(productService.getProducts(request.getNumberOfResults(),
+                request.getOffSet())));
+    }
 
     //Make only admins to be able to access all products
     @GetMapping()

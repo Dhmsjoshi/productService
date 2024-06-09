@@ -11,6 +11,8 @@ import dev.dharam.productservice.exceptions.NoProductPresentException;
 import dev.dharam.productservice.exceptions.ProductNotFoundException;
 import dev.dharam.productservice.mapper.DtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -79,5 +81,10 @@ public class FakeStoreProductServiceImpl implements ProductService {
     @Override
     public String deleteProduct(Long productId) {
         return "SUCCESS";
+    }
+
+    @Override
+    public Page<Product> getProducts(int numberOfProducts, int offset) {
+        return null;
     }
 }
