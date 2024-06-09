@@ -13,15 +13,17 @@ import dev.dharam.productservice.mapper.DtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service("fakeStoreProductService")
-public class FakeStoreProductServiceImpl {
+public class FakeStoreProductServiceImpl implements ProductService {
     @Autowired
     private FakeStoreClient fakeStoreClient;
 
+    //private Map<Long,Object> fakeStoreProducts = new HashMap<>(); => In memory Cache
 
+
+    @Override
     public List<ProductResponseDto> getAllProducts() {
         List<FakeStoreProductResponseDto> fakeStoreProducts =fakeStoreClient.getAllProducts();
         if (fakeStoreProducts == null) {
@@ -39,19 +41,24 @@ public class FakeStoreProductServiceImpl {
     }
 
 
-
-    public ProductResponseDto getProductById(int productId)throws ProductNotFoundException {
+    @Override
+    public ProductResponseDto getProductById(Long productId)throws ProductNotFoundException {
+        //Returning from In memory
+//        if(fakeStoreProducts.containsKey(productId)){
+//            return (ProductResponseDto) fakeStoreProducts.get(productId);
+//        }
         FakeStoreProductResponseDto fakeStoreProduct =fakeStoreClient.getProductById(productId);
         if(fakeStoreProduct == null){
             throw new ProductNotFoundException("Product not found with id: "+productId);
         }
 
         ProductResponseDto product = DtoMapper.convertFakeStoreResponseDtoToProductResponseDto(fakeStoreProduct);
+        //fakeStoreProducts.put(productId, product); storing in memory
         return product;
     }
 
 
-
+    @Override
     public ProductResponseDto createProduct(ProductRequestDto product) {
         FakeStoreProductRequestDto fakeStoreProductRequestDto = DtoMapper.convertProductRequestDtoToFakeStoreProductRequestDto(product);
 
@@ -62,15 +69,15 @@ public class FakeStoreProductServiceImpl {
         return createdProduct;
     }
 
+    @Override
 
-
-    public Product updateProduct(Product updatedProduct, int productId) {
+    public ProductResponseDto updateProduct(Long productId, ProductRequestDto productToUpdate) {
         return null;
     }
 
 
-
-    public boolean deleteProduct(int productId) {
-        return false;
+    @Override
+    public String deleteProduct(Long productId) {
+        return "SUCCESS";
     }
 }

@@ -12,7 +12,7 @@ import java.util.List;
 public class DtoMapper {
     public static Product convertProductRequestDtoToProduct(ProductRequestDto productRequestDto){
         Product product = new Product();
-        //product.setCategory(productRequestDto.getCategory());
+        //product.setCategory(productRequestDto.getCategoryId());
         product.setDescription(productRequestDto.getDescription());
         product.setTitle(productRequestDto.getTitle());
         product.setPrice(productRequestDto.getPrice());
@@ -57,8 +57,8 @@ public class DtoMapper {
 
     public static ProductResponseDto convertFakeStoreResponseDtoToProductResponseDto(FakeStoreProductResponseDto product){
         ProductResponseDto responseDto = new ProductResponseDto();
-       // responseDto.setProductId(product.getId());
-       // responseDto.setCategory(product.getCategory());
+        responseDto.setProductId(product.getId());
+        responseDto.setCategoryName(product.getCategory());
         responseDto.setDescription(product.getDescription());
         responseDto.setPrice(product.getPrice());
         responseDto.setImageURL(product.getImage());

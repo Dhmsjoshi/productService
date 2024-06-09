@@ -32,7 +32,7 @@ public class FakeStoreClient {
         return List.of(fakeStoreProductResponseList.getBody());
     }
 
-    public FakeStoreProductResponseDto getProductById(int id){
+    public FakeStoreProductResponseDto getProductById(Long id){
         String fakeStoreGetProductURL = fakeStoreAPIBaseUrl.concat(fakeStoreAPIProductPath).concat("/"+id);
 
         RestTemplate restTemplate = restTemplateBuilder.build();
