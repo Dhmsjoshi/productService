@@ -14,6 +14,7 @@ import dev.dharam.productservice.service.ProductService;
 import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +28,8 @@ import java.util.Optional;
 @RequestMapping("/products")
 public class ProductController {
     @Autowired
-    @Qualifier("productService")
- //   @Qualifier("fakeStoreProductService")
+   // @Qualifier("productService")
+    @Qualifier("fakeStoreProductService")
     private ProductService productService;
 
     @Autowired
@@ -43,6 +44,8 @@ public class ProductController {
     }
 
     //Make only admins to be able to access all products
+
+
     @GetMapping()
     public ResponseEntity<List<ProductResponseDto>> getAllProducts(@Nullable @RequestHeader("AUTH_TOKEN") String token,
                                                                    @Nullable @RequestHeader("USER_ID") Long userId) {
@@ -77,13 +80,15 @@ public class ProductController {
         return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
+    @Cacheable(value = "product", key = "#id")
     @GetMapping("/{id}")
-    public ResponseEntity<ProductResponseDto> getProductById(@PathVariable("id") Long id){
+    public ProductResponseDto getProductById(@PathVariable("id") Long id){
         if(id == null){
             throw new InvalidInputException("Input is not correct!");
         }
         ProductResponseDto product = productService.getProductById(id);
-        return ResponseEntity.ok(product);
+        //return ResponseEntity.ok(product);
+        return product;
     }
     @PostMapping()
     public ResponseEntity<ProductResponseDto> createProduct(@RequestBody ProductRequestDto productRequestDto){
