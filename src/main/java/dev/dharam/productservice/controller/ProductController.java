@@ -28,24 +28,32 @@ import java.util.Optional;
 @RequestMapping("/products")
 public class ProductController {
     @Autowired
-   // @Qualifier("productService")
-    @Qualifier("fakeStoreProductService")
+    @Qualifier("productService")
+    //@Qualifier("fakeStoreProductService")
     private ProductService productService;
 
     @Autowired
     private AuthenticationClient authenticationClient;
 
 
-    @GetMapping("/paginated")
-    public ResponseEntity<Page<Product>> getProducts(@RequestBody GetProductsRequestDto request){
+    //pagination by request body
+//    @GetMapping("/paginated")
+//    public ResponseEntity<Page<Product>> getProducts(@RequestBody GetProductsRequestDto request){
+//
+//        return ResponseEntity.of(Optional.ofNullable(productService.getProducts(request.getNumberOfResults(),
+//                request.getOffSet())));
+//    }
 
-        return ResponseEntity.of(Optional.ofNullable(productService.getProducts(request.getNumberOfResults(),
-                request.getOffSet())));
+    //pagination by request parameters
+    @GetMapping("/paginated/")
+    public ResponseEntity<Page<Product>> getProducts(@RequestParam("pageNumber") int pageNumber,
+                                                     @RequestParam("pageSize") int pageSize){
+
+        return ResponseEntity.of(Optional.ofNullable(productService.getProducts(pageNumber,pageSize)));
     }
 
+
     //Make only admins to be able to access all products
-
-
     @GetMapping()
     public ResponseEntity<List<ProductResponseDto>> getAllProducts(@Nullable @RequestHeader("AUTH_TOKEN") String token,
                                                                    @Nullable @RequestHeader("USER_ID") Long userId) {

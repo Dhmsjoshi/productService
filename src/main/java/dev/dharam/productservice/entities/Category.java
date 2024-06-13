@@ -1,5 +1,6 @@
 package dev.dharam.productservice.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
@@ -13,5 +14,6 @@ import java.util.List;
 public class Category extends BaseModel{
     private String name;
     @OneToMany(mappedBy = "category")
+    @JsonIgnore
     private List<Product> products;
 }
