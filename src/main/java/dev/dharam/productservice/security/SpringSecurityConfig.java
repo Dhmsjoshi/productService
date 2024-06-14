@@ -19,8 +19,11 @@ public class SpringSecurityConfig {
 //                                .requestMatchers("/products").permitAll()
 //                        .requestMatchers("/products").hasAuthority("admin")
 //                                      .anyRequest().authenticated()
+                                .requestMatchers("/cart/").permitAll()
                                 .anyRequest().permitAll()
                 )
+                .csrf().disable()
+                .cors().disable()
                 .oauth2ResourceServer(oauth2 -> oauth2
                             .jwt(Customizer.withDefaults())
                 )
